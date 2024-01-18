@@ -1,14 +1,20 @@
 import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_images.dart';
+import 'package:employee_management/presentation/screens/employee_detail/employee_detail_screen.dart';
 import 'package:flutter/material.dart';
 
-class AddEmployeeFloatingButton extends StatelessWidget {
-  const AddEmployeeFloatingButton({Key? key}) : super(key: key);
+class AppFloatingButton extends StatelessWidget {
+  const AppFloatingButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const EmployeeDetailScreen()));
+      },
       child: Container(
         width: 50,
         height: 50,
