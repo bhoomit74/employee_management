@@ -3,8 +3,11 @@ import 'package:employee_management/presentation/screens/employee_detail/bloc/em
 import 'package:employee_management/presentation/screens/employee_list/employee_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox("Employees");
   runApp(const MyApp());
 }
 
