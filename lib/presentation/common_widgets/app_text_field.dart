@@ -9,6 +9,7 @@ class AppTextField extends StatelessWidget {
   final String? suffixIconPath;
   final bool readOnly;
   final Function()? onTap;
+  final Function(String value)? onChange;
   const AppTextField(
       {Key? key,
       required this.controller,
@@ -16,7 +17,8 @@ class AppTextField extends StatelessWidget {
       this.prefixIconPath,
       this.suffixIconPath,
       this.readOnly = false,
-      this.onTap})
+      this.onTap,
+      this.onChange})
       : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class AppTextField extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 40, maxHeight: 40),
       child: TextFormField(
         controller: controller,
+        onChanged: onChange,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
           hintText: hint,
