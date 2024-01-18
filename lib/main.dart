@@ -1,4 +1,5 @@
-import 'package:employee_management/screens/employee_list/employee_list_screen.dart';
+import 'package:employee_management/core/styles/app_colors.dart';
+import 'package:employee_management/presentation/screens/employee_list/employee_list_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Employee management',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         useMaterial3: true,
       ),
       home: const EmployeeListScreen(),
