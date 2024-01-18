@@ -6,4 +6,5 @@ class AppImages {
   static const String arrowRight = "assets/arrow_right.png";
   static const String emptyData = "assets/empty_data.png";
   static const String plusIcon = "assets/plus.png";
+  static const String delete = "assets/delete.png";
 }
