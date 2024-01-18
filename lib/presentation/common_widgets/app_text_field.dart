@@ -7,21 +7,23 @@ class AppTextField extends StatelessWidget {
   final String hint;
   final String? prefixIconPath;
   final String? suffixIconPath;
-  final bool isEnabled;
+  final bool readOnly;
+  final Function()? onTap;
   const AppTextField(
       {Key? key,
       required this.controller,
       required this.hint,
       this.prefixIconPath,
       this.suffixIconPath,
-      this.isEnabled = true})
+      this.readOnly = false,
+      this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 40, maxHeight: 40),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
@@ -62,6 +64,8 @@ class AppTextField extends StatelessWidget {
                 )
               : const SizedBox.shrink(),
         ),
+        onTap: () => onTap?.call(),
+        readOnly: readOnly,
       ),
     );
   }
