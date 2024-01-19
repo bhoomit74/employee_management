@@ -30,7 +30,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
   void initState() {
     cubit = context.read<EmployeeCubit>();
 
-    ///If there is already employee then it's for edit.
+    ///If we got employee then it's for edit.
     if (widget.employee != null) {
       cubit.setEmployeeToEdit(widget.employee!);
       nameController.text = widget.employee?.name ?? "";

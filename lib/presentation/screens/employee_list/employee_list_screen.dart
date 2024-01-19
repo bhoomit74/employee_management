@@ -38,6 +38,8 @@ class EmployeeListScreen extends StatelessWidget {
     );
   }
 
+  ///We just have two screen that's why it's easy to handle navigation this way,
+  ///Otherwise we have to manage route.
   navigateToEmployeeDetail(BuildContext context, Employee employee) {
     Navigator.push(
         context,
