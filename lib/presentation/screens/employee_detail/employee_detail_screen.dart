@@ -1,6 +1,7 @@
 import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_images.dart';
 import 'package:employee_management/core/styles/app_strings.dart';
+import 'package:employee_management/domain/employee.dart';
 import 'package:employee_management/presentation/common_widgets/action_buttons.dart';
 import 'package:employee_management/presentation/common_widgets/app_text_field.dart';
 import 'package:employee_management/presentation/common_widgets/top_bar.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EmployeeDetailScreen extends StatefulWidget {
-  const EmployeeDetailScreen({Key? key}) : super(key: key);
+  final Employee? employee;
+  const EmployeeDetailScreen({Key? key, this.employee}) : super(key: key);
 
   @override
   State<EmployeeDetailScreen> createState() => _EmployeeDetailScreenState();
@@ -18,6 +20,7 @@ class EmployeeDetailScreen extends StatefulWidget {
 
 class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
   late EmployeeCubit cubit;
+  String appTitle = AppStrings.addEmployeeDetails;
   TextEditingController nameController = TextEditingController();
   TextEditingController roleController = TextEditingController();
   TextEditingController startDateController = TextEditingController();
@@ -26,6 +29,16 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
   @override
   void initState() {
     cubit = context.read<EmployeeCubit>();
+
+    ///If there is already employee then it's for edit.
+    if (widget.employee != null) {
+      cubit.setEmployeeToEdit(widget.employee!);
+      nameController.text = widget.employee?.name ?? "";
+      roleController.text = widget.employee?.role ?? "";
+      startDateController.text = widget.employee?.startDate ?? "";
+      endDateController.text = widget.employee?.endDate ?? "";
+      appTitle = AppStrings.editEmployeeDetails;
+    }
     super.initState();
   }
 
@@ -46,7 +59,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: const TopBar(title: AppStrings.addEmployeeDetails),
+          appBar: TopBar(title: appTitle),
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,7 +118,9 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                 ),
                 ActionButtons(
                   onSave: () {
-                    cubit.addEmployee();
+                    widget.employee == null
+                        ? cubit.addEmployee()
+                        : cubit.editEmployee();
                   },
                   onCancel: () {
                     Navigator.pop(context);

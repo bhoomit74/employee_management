@@ -5,13 +5,13 @@ class Employee {
   late String startDate;
   late String endDate;
 
-  Employee(this.id, this.name, this.role, this.startDate, this.endDate) {
-    if (name.isEmpty) {
-      throw (const FormatException("Employee name is required."));
-    }
-    if (role.isEmpty) {
-      throw (const FormatException("Please select role."));
-    }
+  Employee(this.id, this.name, this.role, this.startDate, this.endDate);
+  Employee.empty() {
+    id = "";
+    name = "";
+    role = "";
+    startDate = "";
+    endDate = "";
   }
 
   Employee.fromJson(Map<dynamic, dynamic> json) {
@@ -31,5 +31,9 @@ class Employee {
     data['endDate'] = endDate;
 
     return data;
+  }
+
+  Employee copy() {
+    return Employee(id, name, role, startDate, endDate);
   }
 }

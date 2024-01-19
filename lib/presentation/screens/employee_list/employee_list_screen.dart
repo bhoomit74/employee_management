@@ -2,6 +2,7 @@ import 'package:employee_management/core/styles/app_strings.dart';
 import 'package:employee_management/domain/employee.dart';
 import 'package:employee_management/presentation/common_widgets/top_bar.dart';
 import 'package:employee_management/presentation/screens/employee_detail/bloc/employee_cubit.dart';
+import 'package:employee_management/presentation/screens/employee_detail/employee_detail_screen.dart';
 import 'package:employee_management/presentation/screens/employee_list/components/app_floating_button.dart';
 import 'package:employee_management/presentation/screens/employee_list/components/employee_tile.dart';
 import 'package:employee_management/presentation/screens/employee_list/components/no_data_widget.dart';
@@ -25,11 +26,23 @@ class EmployeeListScreen extends StatelessWidget {
                   : ListView.builder(
                       itemCount: employees.length,
                       itemBuilder: (context, index) {
-                        return EmployeeTile(employee: employees[index]);
+                        return GestureDetector(
+                            onTap: () => navigateToEmployeeDetail(
+                                context, employees[index]),
+                            behavior: HitTestBehavior.opaque,
+                            child: EmployeeTile(employee: employees[index]));
                       },
                     ),
             ));
       },
     );
+  }
+
+  navigateToEmployeeDetail(BuildContext context, Employee employee) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EmployeeDetailScreen(employee: employee),
+        ));
   }
 }

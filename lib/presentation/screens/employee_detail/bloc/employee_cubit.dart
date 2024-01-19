@@ -6,10 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'employee_state.dart';
 
 class EmployeeCubit extends Cubit<EmployeeState> {
-  String _selectedRole = "";
-  String _employeeName = "";
-  String _startDate = "";
-  String _endDate = "";
+  Employee selectedEmployee = Employee.empty();
   List<Employee> employees = [];
   late EmployeeRepository employeeRepository;
   EmployeeCubit() : super(EmployeeInitial()) {
@@ -23,28 +20,16 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   }
 
   addEmployee() {
-    try {
-      Employee employee = Employee(
-          DateTime.now().millisecondsSinceEpoch.toString(),
-          _employeeName,
-          _selectedRole,
-          _startDate,
-          _endDate);
-      employees.add(employee);
-      employeeRepository.addEmployee(employee);
-      emit(EmployeesUpdate());
-    } on FormatException catch (a, _) {
-      emit(Error(a.message));
-    }
+    Employee employee = selectedEmployee.copy();
+    employee.id = DateTime.now().millisecondsSinceEpoch.toString();
+    employees.add(employee);
+    employeeRepository.addEmployee(employee);
+    emit(EmployeesUpdate());
   }
 
   editEmployee() {
-    try {
-      /*Employee employee =
-          Employee(_employeeName, _selectedRole, _startDate, _endDate);*/
-    } on FormatException catch (a, _) {
-      emit(Error(a.message));
-    }
+    employeeRepository.addEmployee(selectedEmployee);
+    emit(EmployeesUpdate());
   }
 
   deleteEmployee(Employee employee) {
@@ -54,15 +39,19 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   }
 
   onEmployeeNameChange(String name) {
-    _employeeName = name;
+    selectedEmployee.name = name;
   }
 
   selectRole(String role) {
-    _selectedRole = role;
+    selectedEmployee.role = role;
     emit(RoleChange(role));
   }
 
   selectStartDate(DateTime dateTime) {}
 
-  selectEndDate() {}
+  selectEndDate(DateTime endDate) {}
+
+  setEmployeeToEdit(Employee employee) {
+    selectedEmployee = employee;
+  }
 }
