@@ -1,11 +1,13 @@
 import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_images.dart';
 import 'package:employee_management/core/styles/app_strings.dart';
+import 'package:employee_management/core/utils/app_date_format.dart';
 import 'package:employee_management/domain/employee.dart';
-import 'package:employee_management/presentation/common_widgets/action_buttons.dart';
 import 'package:employee_management/presentation/common_widgets/app_text_field.dart';
+import 'package:employee_management/presentation/common_widgets/bottom_action_bar.dart';
 import 'package:employee_management/presentation/common_widgets/top_bar.dart';
 import 'package:employee_management/presentation/screens/employee_detail/bloc/employee_cubit.dart';
+import 'package:employee_management/presentation/screens/employee_detail/components/app_calendar.dart';
 import 'package:employee_management/presentation/screens/employee_detail/components/select_role_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,14 +31,18 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
   @override
   void initState() {
     cubit = context.read<EmployeeCubit>();
+    startDateController.text = DateUtil.formatDateToString(
+        widget.employee?.startDate ?? DateTime.now().millisecondsSinceEpoch);
 
     ///If we got employee then it's for edit.
     if (widget.employee != null) {
       cubit.setEmployeeToEdit(widget.employee!);
       nameController.text = widget.employee?.name ?? "";
       roleController.text = widget.employee?.role ?? "";
-      startDateController.text = widget.employee?.startDate ?? "";
-      endDateController.text = widget.employee?.endDate ?? "";
+      startDateController.text = DateUtil.formatDateToString(
+          widget.employee?.startDate ?? DateTime.now().millisecondsSinceEpoch);
+      endDateController.text =
+          DateUtil.formatDateToString(widget.employee?.endDate ?? 0);
       appTitle = AppStrings.editEmployeeDetails;
     }
     super.initState();
@@ -54,6 +60,13 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.errorMessage)));
         } else if (state is EmployeesUpdate) {
+          Navigator.pop(context);
+        } else if (state is StartDateChange) {
+          startDateController.text =
+              DateUtil.formatDateToString(state.startDate);
+          Navigator.pop(context);
+        } else if (state is EndDateChange) {
+          endDateController.text = DateUtil.formatDateToString(state.endDate);
           Navigator.pop(context);
         }
       },
@@ -92,6 +105,19 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                 controller: startDateController,
                                 hint: "Today",
                                 readOnly: true,
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AppCalendar(
+                                          selectedDate: DateTime
+                                              .fromMillisecondsSinceEpoch(cubit
+                                                  .selectedEmployee.startDate),
+                                          firstDate: DateTime(2023),
+                                          onSelect: cubit.selectStartDate);
+                                    },
+                                  );
+                                },
                                 prefixIconPath: AppImages.event),
                           ),
                           Padding(
@@ -109,6 +135,22 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                 controller: endDateController,
                                 hint: "No date",
                                 readOnly: true,
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AppCalendar(
+                                          selectedDate: DateTime
+                                              .fromMillisecondsSinceEpoch(
+                                                  cubit.selectedEmployee
+                                                      .startDate),
+                                          firstDate: DateTime
+                                              .fromMillisecondsSinceEpoch(cubit
+                                                  .selectedEmployee.startDate),
+                                          onSelect: cubit.selectEndDate);
+                                    },
+                                  );
+                                },
                                 prefixIconPath: AppImages.event),
                           ),
                         ],
@@ -116,7 +158,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                     ],
                   ),
                 ),
-                ActionButtons(
+                BottomActionBar(
                   onSave: () {
                     widget.employee == null
                         ? cubit.addEmployee()

@@ -2,16 +2,16 @@ class Employee {
   late String id;
   late String name;
   late String role;
-  late String startDate;
-  late String endDate;
+  late int startDate;
+  late int endDate;
 
   Employee(this.id, this.name, this.role, this.startDate, this.endDate);
   Employee.empty() {
     id = "";
     name = "";
     role = "";
-    startDate = "";
-    endDate = "";
+    startDate = DateTime.now().millisecondsSinceEpoch;
+    endDate = 0;
   }
 
   Employee.fromJson(Map<dynamic, dynamic> json) {

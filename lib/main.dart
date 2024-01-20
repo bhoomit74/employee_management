@@ -1,4 +1,5 @@
 import 'package:employee_management/core/styles/app_colors.dart';
+import 'package:employee_management/core/styles/app_text_styles.dart';
 import 'package:employee_management/presentation/screens/employee_detail/bloc/employee_cubit.dart';
 import 'package:employee_management/presentation/screens/employee_list/employee_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Employee management',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
+          datePickerTheme: DatePickerThemeData(
+              dayStyle: AppTextStyles.bodySmall(),
+              todayBorder:
+                  const BorderSide(color: AppColors.primary, width: 1)),
+          colorScheme: ColorScheme.fromSwatch(
+              backgroundColor: AppColors.white, accentColor: AppColors.primary),
           useMaterial3: true,
         ),
         home: const EmployeeListScreen(),

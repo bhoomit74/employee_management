@@ -12,6 +12,16 @@ class EmployeesFound extends EmployeeState {}
 
 class EmployeesUpdate extends EmployeeState {}
 
+class StartDateChange extends EmployeeState {
+  final int startDate;
+  StartDateChange(this.startDate);
+}
+
+class EndDateChange extends EmployeeState {
+  final int endDate;
+  EndDateChange(this.endDate);
+}
+
 class RoleChange extends EmployeeState {
   final String role;
   RoleChange(this.role);

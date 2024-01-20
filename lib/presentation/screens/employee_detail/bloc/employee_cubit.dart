@@ -47,9 +47,15 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     emit(RoleChange(role));
   }
 
-  selectStartDate(DateTime dateTime) {}
+  selectStartDate(DateTime dateTime) {
+    selectedEmployee.startDate = dateTime.millisecondsSinceEpoch;
+    emit(StartDateChange(dateTime.millisecondsSinceEpoch));
+  }
 
-  selectEndDate(DateTime endDate) {}
+  selectEndDate(DateTime dateTime) {
+    selectedEmployee.endDate = dateTime.millisecondsSinceEpoch;
+    emit(EndDateChange(dateTime.millisecondsSinceEpoch));
+  }
 
   setEmployeeToEdit(Employee employee) {
     selectedEmployee = employee;
