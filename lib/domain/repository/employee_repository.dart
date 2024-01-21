@@ -1,4 +1,4 @@
-import 'package:employee_management/domain/employee.dart';
+import 'package:employee_management/domain/model/employee.dart';
 
 abstract class EmployeeRepository {
   List<Employee> fetchEmployees();

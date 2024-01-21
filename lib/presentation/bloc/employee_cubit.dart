@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:employee_management/data/employee_repository_impl.dart';
-import 'package:employee_management/domain/employee.dart';
+import 'package:employee_management/domain/model/employee.dart';
 import 'package:employee_management/domain/repository/employee_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,13 +50,21 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   }
 
   deleteEmployee(Employee employee) {
+    // Remove the employee immediately from the list
     employees.remove(employee);
+    separateCurrentAndPreviousEmployee();
+
+    //If a delete timer is active for a previous employee, cancel it and delete that employee
     if (_deleteTimer?.isActive == true && undoEmployee != null) {
       _deleteTimer?.cancel();
       employeeRepository.deleteEmployee(undoEmployee!);
       undoEmployee = null;
     }
+
+    ///Set the current employee as the one to be undo.
     undoEmployee = employee;
+
+    ///Wait for 4 seconds before deleting the employee permanently, so user can undo this operation.
     _deleteTimer = Timer(const Duration(seconds: 4), () {
       employeeRepository.deleteEmployee(employee);
       undoEmployee = null;
@@ -65,12 +73,10 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   }
 
   undoDelete() {
-    if (_deleteTimer?.isActive == true) {
+    if (_deleteTimer?.isActive == true && undoEmployee != null) {
       _deleteTimer?.cancel();
-      if (undoEmployee != null) {
-        employees.add(undoEmployee!);
-        separateCurrentAndPreviousEmployee();
-      }
+      employees.add(undoEmployee!);
+      separateCurrentAndPreviousEmployee();
       emit(EmployeesUpdate());
     }
   }

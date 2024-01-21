@@ -1,7 +1,7 @@
 import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_text_styles.dart';
 import 'package:employee_management/core/utils/date_extension.dart';
-import 'package:employee_management/domain/employee.dart';
+import 'package:employee_management/domain/model/employee.dart';
 import 'package:employee_management/presentation/bloc/employee_cubit.dart';
 import 'package:employee_management/presentation/screens/employee_detail/employee_detail_screen.dart';
 import 'package:employee_management/presentation/screens/employee_list/components/dismissible_tile.dart';
@@ -14,11 +14,11 @@ class EmployeeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DismissibleTile(
-      onDismiss: () => context.read<EmployeeCubit>().deleteEmployee(employee),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => navigateToEmployeeDetail(context),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => navigateToEmployeeDetail(context),
+      child: DismissibleTile(
+        onDismiss: () => context.read<EmployeeCubit>().deleteEmployee(employee),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

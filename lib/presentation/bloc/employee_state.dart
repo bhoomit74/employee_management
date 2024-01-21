@@ -4,8 +4,6 @@ abstract class EmployeeState {}
 
 class EmployeeInitial extends EmployeeState {}
 
-class EmployeeLoading extends EmployeeState {}
-
 class EmployeesFetch extends EmployeeState {}
 
 class EmployeesUpdate extends EmployeeState {}

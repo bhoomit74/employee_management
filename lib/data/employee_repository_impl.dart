@@ -1,4 +1,4 @@
-import 'package:employee_management/domain/employee.dart';
+import 'package:employee_management/domain/model/employee.dart';
 import 'package:employee_management/domain/repository/employee_repository.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

@@ -1,5 +1,5 @@
 import 'package:employee_management/core/styles/app_colors.dart';
-import 'package:employee_management/domain/employee.dart';
+import 'package:employee_management/domain/model/employee.dart';
 import 'package:employee_management/presentation/screens/employee_list/components/employee_tile.dart';
 import 'package:flutter/material.dart';
 
