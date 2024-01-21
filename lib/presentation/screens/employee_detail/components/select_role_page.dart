@@ -16,6 +16,7 @@ class SelectRolePage extends StatelessWidget {
             onTap: () {
               context.read<EmployeeCubit>().selectRole(roles[index]);
             },
+            behavior: HitTestBehavior.opaque,
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
