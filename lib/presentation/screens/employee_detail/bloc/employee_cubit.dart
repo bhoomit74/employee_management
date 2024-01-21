@@ -22,14 +22,22 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   addEmployee() {
     Employee employee = selectedEmployee.copy();
     employee.id = DateTime.now().millisecondsSinceEpoch.toString();
-    employees.add(employee);
-    employeeRepository.addEmployee(employee);
-    emit(EmployeesUpdate());
+    if (employee.error.isEmpty) {
+      employees.add(employee);
+      employeeRepository.addEmployee(employee);
+      emit(EmployeesUpdate());
+    } else {
+      emit(Error(employee.error));
+    }
   }
 
   editEmployee() {
-    employeeRepository.addEmployee(selectedEmployee);
-    emit(EmployeesUpdate());
+    if (selectedEmployee.error.isEmpty) {
+      employeeRepository.addEmployee(selectedEmployee);
+      emit(EmployeesUpdate());
+    } else {
+      emit(Error(selectedEmployee.error));
+    }
   }
 
   deleteEmployee(Employee employee) {
@@ -47,14 +55,17 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     emit(RoleChange(role));
   }
 
-  selectStartDate(DateTime dateTime) {
+  selectStartDate(DateTime? dateTime) {
+    if (dateTime == null) {
+      return;
+    }
     selectedEmployee.startDate = dateTime.millisecondsSinceEpoch;
     emit(StartDateChange(dateTime.millisecondsSinceEpoch));
   }
 
-  selectEndDate(DateTime dateTime) {
-    selectedEmployee.endDate = dateTime.millisecondsSinceEpoch;
-    emit(EndDateChange(dateTime.millisecondsSinceEpoch));
+  selectEndDate(DateTime? dateTime) {
+    selectedEmployee.endDate = dateTime?.millisecondsSinceEpoch;
+    emit(EndDateChange(dateTime?.millisecondsSinceEpoch));
   }
 
   setEmployeeToEdit(Employee employee) {

@@ -18,7 +18,7 @@ class StartDateChange extends EmployeeState {
 }
 
 class EndDateChange extends EmployeeState {
-  final int endDate;
+  final int? endDate;
   EndDateChange(this.endDate);
 }
 

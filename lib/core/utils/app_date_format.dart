@@ -1,7 +1,10 @@
 import 'package:intl/intl.dart';
 
 class DateUtil {
-  static String formatDateToString(int millisecondsSinceEpoch) {
+  static String formatDateToString(int? millisecondsSinceEpoch) {
+    if (millisecondsSinceEpoch == null) {
+      return "";
+    }
     DateTime date = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
     Duration duration = date.difference(DateTime.now());
     if (duration.inDays == 0) {
@@ -32,7 +35,10 @@ class DateUtil {
     return currentDate.add(const Duration(days: 7));
   }
 
-  static bool isSameDay(DateTime date1, DateTime date2) {
+  static bool isSameDay(DateTime date1, DateTime? date2) {
+    if (date2 == null) {
+      return false;
+    }
     return date1.year == date2.year &&
         date1.month == date2.month &&
         date1.day == date2.day;

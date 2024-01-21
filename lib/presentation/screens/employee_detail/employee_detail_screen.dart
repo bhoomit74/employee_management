@@ -41,9 +41,14 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
       roleController.text = widget.employee?.role ?? "";
       startDateController.text = DateUtil.formatDateToString(
           widget.employee?.startDate ?? DateTime.now().millisecondsSinceEpoch);
-      endDateController.text =
-          DateUtil.formatDateToString(widget.employee?.endDate ?? 0);
+      endDateController.text = widget.employee?.endDate == null
+          ? ""
+          : DateUtil.formatDateToString(widget.employee?.endDate ?? 0);
       appTitle = AppStrings.editEmployeeDetails;
+    } else {
+      cubit.selectedEmployee = Employee.empty();
+      startDateController.text = DateUtil.formatDateToString(
+          widget.employee?.startDate ?? DateTime.now().millisecondsSinceEpoch);
     }
     super.initState();
   }
@@ -140,14 +145,17 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                     context: context,
                                     builder: (context) {
                                       return AppCalendar(
-                                          selectedDate: DateTime
-                                              .fromMillisecondsSinceEpoch(
-                                                  cubit.selectedEmployee
-                                                      .startDate),
-                                          firstDate: DateTime
-                                              .fromMillisecondsSinceEpoch(cubit
-                                                  .selectedEmployee.startDate),
-                                          onSelect: cubit.selectEndDate);
+                                        selectedDate:
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                cubit.selectedEmployee
+                                                    .startDate),
+                                        firstDate:
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                cubit.selectedEmployee
+                                                    .startDate),
+                                        onSelect: cubit.selectEndDate,
+                                        isForEndDate: true,
+                                      );
                                     },
                                   );
                                 },

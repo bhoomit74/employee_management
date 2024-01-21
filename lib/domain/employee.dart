@@ -3,7 +3,7 @@ class Employee {
   late String name;
   late String role;
   late int startDate;
-  late int endDate;
+  int? endDate;
 
   Employee(this.id, this.name, this.role, this.startDate, this.endDate);
   Employee.empty() {
@@ -11,7 +11,7 @@ class Employee {
     name = "";
     role = "";
     startDate = DateTime.now().millisecondsSinceEpoch;
-    endDate = 0;
+    endDate = null;
   }
 
   Employee.fromJson(Map<dynamic, dynamic> json) {
@@ -35,5 +35,15 @@ class Employee {
 
   Employee copy() {
     return Employee(id, name, role, startDate, endDate);
+  }
+
+  String get error {
+    if (name.isEmpty) {
+      return "Employee name is required.";
+    } else if (role.isEmpty) {
+      return "Role is required";
+    } else {
+      return "";
+    }
   }
 }

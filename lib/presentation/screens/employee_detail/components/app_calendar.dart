@@ -9,12 +9,14 @@ import 'package:intl/intl.dart';
 class AppCalendar extends StatefulWidget {
   final DateTime selectedDate;
   final DateTime firstDate;
-  final Function(DateTime dateTime) onSelect;
+  final bool isForEndDate;
+  final Function(DateTime? dateTime) onSelect;
   const AppCalendar(
       {Key? key,
       required this.selectedDate,
       required this.firstDate,
-      required this.onSelect})
+      required this.onSelect,
+      this.isForEndDate = false})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class AppCalendar extends StatefulWidget {
 }
 
 class _AppCalendarState extends State<AppCalendar> {
-  DateTime date = DateTime.now();
+  DateTime? date;
 
   @override
   void initState() {
@@ -55,48 +57,68 @@ class _AppCalendarState extends State<AppCalendar> {
                             mainAxisSpacing: 16,
                             crossAxisSpacing: 16),
                     children: [
-                      AppButton(
-                          label: "Today",
+                      if (widget.isForEndDate) ...[
+                        AppButton(
+                            label: "No date",
+                            onTap: () {
+                              setState(() {
+                                date = null;
+                              });
+                            },
+                            isSecondaryButton: date != null),
+                        AppButton(
+                            label: "Today",
+                            onTap: () {
+                              setState(() {
+                                date = DateTime.now();
+                              });
+                            },
+                            isSecondaryButton:
+                                !DateUtil.isSameDay(DateTime.now(), date)),
+                      ] else ...[
+                        AppButton(
+                            label: "Today",
+                            onTap: () {
+                              setState(() {
+                                date = DateTime.now();
+                              });
+                            },
+                            isSecondaryButton:
+                                !DateUtil.isSameDay(DateTime.now(), date)),
+                        AppButton(
+                          label: "Next Monday",
                           onTap: () {
                             setState(() {
-                              date = DateTime.now();
-                            });
-                          },
-                          isSecondaryButton:
-                              !DateUtil.isSameDay(DateTime.now(), date)),
-                      AppButton(
-                        label: "Next Monday",
-                        onTap: () {
-                          setState(() {
-                            date = DateUtil.getNextDate(DateTime.monday);
-                          });
-                        },
-                        isSecondaryButton: !DateUtil.isSameDay(
-                            DateUtil.getNextDate(DateTime.monday), date),
-                      ),
-                      AppButton(
-                          label: "Next Tuesday",
-                          onTap: () {
-                            setState(() {
-                              date = DateUtil.getNextDate(DateTime.tuesday);
+                              date = DateUtil.getNextDate(DateTime.monday);
                             });
                           },
                           isSecondaryButton: !DateUtil.isSameDay(
-                              DateUtil.getNextDate(DateTime.tuesday), date)),
-                      AppButton(
-                          label: "After 1 Week",
-                          onTap: () {
-                            setState(() {
-                              date = DateUtil.getDateAfterWeek();
-                            });
-                          },
-                          isSecondaryButton: !DateUtil.isSameDay(
-                              DateUtil.getDateAfterWeek(), date)),
+                              DateUtil.getNextDate(DateTime.monday), date),
+                        ),
+                        AppButton(
+                            label: "Next Tuesday",
+                            onTap: () {
+                              setState(() {
+                                date = DateUtil.getNextDate(DateTime.tuesday);
+                              });
+                            },
+                            isSecondaryButton: !DateUtil.isSameDay(
+                                DateUtil.getNextDate(DateTime.tuesday), date)),
+                        AppButton(
+                            label: "After 1 Week",
+                            onTap: () {
+                              setState(() {
+                                date = DateUtil.getDateAfterWeek();
+                              });
+                            },
+                            isSecondaryButton: !DateUtil.isSameDay(
+                                DateUtil.getDateAfterWeek(), date)),
+                      ],
                     ],
                   ),
                 ),
                 CalendarDatePicker(
-                    initialDate: date,
+                    initialDate: date ?? DateTime.now(),
                     firstDate: widget.firstDate,
                     lastDate: DateTime(2026),
                     onDateChanged: (value) => setState(() {
@@ -104,7 +126,9 @@ class _AppCalendarState extends State<AppCalendar> {
                         })),
                 BottomActionBar(
                     prefixIcon: AppImages.event,
-                    prefixLabel: DateFormat("dd MMM yyyy").format(date),
+                    prefixLabel: date == null
+                        ? ""
+                        : DateFormat("dd MMM yyyy").format(date!),
                     onSave: () => widget.onSelect(date),
                     onCancel: () => Navigator.pop(context))
               ],
