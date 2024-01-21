@@ -131,8 +131,8 @@ class _AppCalendarState extends State<AppCalendar> {
                 BottomActionBar(
                     prefixIcon: AppImages.event,
                     prefixLabel: date == null
-                        ? ""
-                        : DateFormat("dd MMM yyyy").format(date!),
+                        ? "No date"
+                        : DateFormat("dd MMM, yyyy").format(date!),
                     onSave: () => widget.onSelect(date),
                     onCancel: () => Navigator.pop(context))
               ],

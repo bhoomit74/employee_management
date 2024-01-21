@@ -1,6 +1,6 @@
 import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_text_styles.dart';
-import 'package:employee_management/presentation/screens/employee_detail/bloc/employee_cubit.dart';
+import 'package:employee_management/presentation/bloc/employee_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
