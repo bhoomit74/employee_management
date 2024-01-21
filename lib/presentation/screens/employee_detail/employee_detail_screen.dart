@@ -44,7 +44,10 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
       actions.add(Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: GestureDetector(
-          onTap: () => cubit.deleteEmployee(widget.employee!),
+          onTap: () {
+            cubit.deleteEmployee(widget.employee!);
+            Navigator.pop(context);
+          },
           behavior: HitTestBehavior.opaque,
           child: Image.asset(AppImages.delete, width: 24, height: 24),
         ),

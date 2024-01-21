@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:employee_management/data/employee_repository_impl.dart';
 import 'package:employee_management/domain/employee.dart';
 import 'package:employee_management/domain/repository/employee_repository.dart';
@@ -10,6 +12,8 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   List<Employee> employees = [];
   List<Employee> currentEmployees = [];
   List<Employee> previousEmployees = [];
+  Timer? _deleteTimer;
+  Employee? undoEmployee;
   late EmployeeRepository employeeRepository;
   EmployeeCubit() : super(EmployeeInitial()) {
     employeeRepository = EmployeeRepositoryImpl();
@@ -47,9 +51,28 @@ class EmployeeCubit extends Cubit<EmployeeState> {
 
   deleteEmployee(Employee employee) {
     employees.remove(employee);
-    employeeRepository.deleteEmployee(employee);
-    separateCurrentAndPreviousEmployee();
-    emit(EmployeesUpdate());
+    if (_deleteTimer?.isActive == true && undoEmployee != null) {
+      _deleteTimer?.cancel();
+      employeeRepository.deleteEmployee(undoEmployee!);
+      undoEmployee = null;
+    }
+    undoEmployee = employee;
+    _deleteTimer = Timer(const Duration(seconds: 4), () {
+      employeeRepository.deleteEmployee(employee);
+      undoEmployee = null;
+    });
+    emit(EmployeesDelete());
+  }
+
+  undoDelete() {
+    if (_deleteTimer?.isActive == true) {
+      _deleteTimer?.cancel();
+      if (undoEmployee != null) {
+        employees.add(undoEmployee!);
+        separateCurrentAndPreviousEmployee();
+      }
+      emit(EmployeesUpdate());
+    }
   }
 
   onEmployeeNameChange(String name) {

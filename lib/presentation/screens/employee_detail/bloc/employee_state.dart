@@ -10,6 +10,8 @@ class EmployeesFetch extends EmployeeState {}
 
 class EmployeesUpdate extends EmployeeState {}
 
+class EmployeesDelete extends EmployeeState {}
+
 class StartDateChange extends EmployeeState {
   final int startDate;
   StartDateChange(this.startDate);

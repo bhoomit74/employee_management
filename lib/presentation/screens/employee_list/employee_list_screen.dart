@@ -1,3 +1,4 @@
+import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_strings.dart';
 import 'package:employee_management/presentation/common_widgets/top_bar.dart';
 import 'package:employee_management/presentation/screens/employee_detail/bloc/employee_cubit.dart';
@@ -14,7 +15,23 @@ class EmployeeListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     EmployeeCubit cubit = context.read<EmployeeCubit>();
-    return BlocBuilder<EmployeeCubit, EmployeeState>(
+    return BlocConsumer<EmployeeCubit, EmployeeState>(
+      buildWhen: (previous, current) =>
+          current is EmployeesFetch || current is EmployeesUpdate,
+      listener: (context, state) {
+        if (state is EmployeesDelete) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text(AppStrings.employeeDeleted),
+            action: SnackBarAction(
+                label: AppStrings.undo,
+                textColor: AppColors.primary,
+                onPressed: () {
+                  context.read<EmployeeCubit>().undoDelete();
+                }),
+          ));
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: const TopBar(title: AppStrings.employeeList),
