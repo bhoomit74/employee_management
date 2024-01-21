@@ -1,5 +1,6 @@
 import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_strings.dart';
+import 'package:employee_management/core/styles/app_text_styles.dart';
 import 'package:employee_management/presentation/bloc/employee_cubit.dart';
 import 'package:employee_management/presentation/common_widgets/top_bar.dart';
 import 'package:employee_management/presentation/screens/employee_list/components/app_floating_button.dart';
@@ -19,21 +20,11 @@ class EmployeeListScreen extends StatelessWidget {
       buildWhen: (previous, current) =>
           current is EmployeesFetch || current is EmployeesUpdate,
       listener: (context, state) {
-        if (state is EmployeesDelete) {
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text(AppStrings.employeeDeleted),
-            action: SnackBarAction(
-                label: AppStrings.undo,
-                textColor: AppColors.primary,
-                onPressed: () {
-                  context.read<EmployeeCubit>().undoDelete();
-                }),
-          ));
-        }
+        if (state is EmployeesDelete) showDeleteSnackBar(context);
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: AppColors.lightGreyColor,
           appBar: const TopBar(title: AppStrings.employeeList),
           floatingActionButton: const AppFloatingButton(),
           body: SafeArea(
@@ -44,12 +35,32 @@ class EmployeeListScreen extends StatelessWidget {
                       const SliverBar(title: AppStrings.currentEmployees),
                       EmployeeList(employees: cubit.currentEmployees),
                       const SliverBar(title: AppStrings.previousEmployees),
-                      EmployeeList(employees: cubit.previousEmployees)
+                      EmployeeList(employees: cubit.previousEmployees),
+                      SliverAppBar(
+                          backgroundColor: AppColors.lightGreyColor,
+                          title: Text(
+                            AppStrings.swipeLeftToDelete,
+                            style: AppTextStyles.bodyTiny(
+                                color: AppColors.hintColor),
+                          ))
                     ],
                   ),
           ),
         );
       },
     );
+  }
+
+  showDeleteSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text(AppStrings.employeeDeleted),
+      action: SnackBarAction(
+          label: AppStrings.undo,
+          textColor: AppColors.primary,
+          onPressed: () {
+            context.read<EmployeeCubit>().undoDelete();
+          }),
+    ));
   }
 }

@@ -9,4 +9,5 @@ class AppColors {
   static const Color hintColor = Color(0xFF949C9E);
   static const Color focusedBorderColor = Color(0xFFE5E5E5);
   static const Color red = Color(0xFFF34642);
+  static const Color lightGreyColor = Color(0xFFF2F2F2);
 }

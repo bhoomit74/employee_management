@@ -9,7 +9,7 @@ class SliverBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      backgroundColor: AppColors.borderColor,
+      backgroundColor: AppColors.lightGreyColor,
       title: Text(title,
           style: AppTextStyles.bodyTinyMedium(color: AppColors.primary)),
     );

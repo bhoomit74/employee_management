@@ -17,23 +17,27 @@ class EmployeeTile extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => navigateToEmployeeDetail(context),
-      child: DismissibleTile(
-        onDismiss: () => context.read<EmployeeCubit>().deleteEmployee(employee),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(employee.name, style: AppTextStyles.bodySmallMedium()),
-              const SizedBox(height: 6),
-              Text(employee.role,
-                  style:
-                      AppTextStyles.bodyTinyMedium(color: AppColors.hintColor)),
-              const SizedBox(height: 6),
-              Text(getWorkDurationText(employee),
-                  style:
-                      AppTextStyles.bodyExtraTiny(color: AppColors.hintColor)),
-            ],
+      child: Container(
+        color: AppColors.white,
+        child: DismissibleTile(
+          onDismiss: () =>
+              context.read<EmployeeCubit>().deleteEmployee(employee),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(employee.name, style: AppTextStyles.bodySmallMedium()),
+                const SizedBox(height: 6),
+                Text(employee.role,
+                    style: AppTextStyles.bodyTinyMedium(
+                        color: AppColors.hintColor)),
+                const SizedBox(height: 6),
+                Text(getWorkDurationText(employee),
+                    style: AppTextStyles.bodyExtraTiny(
+                        color: AppColors.hintColor)),
+              ],
+            ),
           ),
         ),
       ),

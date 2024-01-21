@@ -11,4 +11,5 @@ class AppStrings {
   static const undo = "Undo";
   static const save = "Save";
   static const cancel = "Cancel";
+  static const swipeLeftToDelete = "Swipe left to delete";
 }
