@@ -53,7 +53,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     // Remove the employee immediately from the list
     employees.remove(employee);
     separateCurrentAndPreviousEmployee();
-
+    emit(EmployeesFetch());
     //If a delete timer is active for a previous employee, cancel it and delete that employee
     if (_deleteTimer?.isActive == true && undoEmployee != null) {
       _deleteTimer?.cancel();
