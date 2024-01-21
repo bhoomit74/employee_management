@@ -28,45 +28,46 @@ class AppTextField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         onChanged: onChange,
+        keyboardType: TextInputType.name,
+        textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
-          hintText: hint,
-          hintStyle: AppTextStyles.hintTextStyle,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: const BorderSide(color: AppColors.borderColor),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: const BorderSide(color: AppColors.focusedBorderColor),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: const BorderSide(color: AppColors.borderColor),
-          ),
-          prefixIcon: prefixIconPath != null
-              ? Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Image.asset(
-                    prefixIconPath!,
-                    color: AppColors.primary,
-                    width: 19,
-                    height: 17,
-                  ),
-                )
-              : const SizedBox.shrink(),
-          suffixIcon: suffixIconPath != null
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    suffixIconPath!,
-                    color: AppColors.primary,
-                    width: 20,
-                    height: 20,
-                  ),
-                )
-              : const SizedBox.shrink(),
-        ),
+            contentPadding: EdgeInsets.zero,
+            hintText: hint,
+            hintStyle: AppTextStyles.hintTextStyle,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: AppColors.borderColor),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: AppColors.focusedBorderColor),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: AppColors.borderColor),
+            ),
+            prefixIcon: prefixIconPath != null
+                ? Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Image.asset(
+                      prefixIconPath!,
+                      color: AppColors.primary,
+                      width: 19,
+                      height: 17,
+                    ),
+                  )
+                : null,
+            suffixIcon: suffixIconPath != null
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      suffixIconPath!,
+                      color: AppColors.primary,
+                      width: 20,
+                      height: 20,
+                    ),
+                  )
+                : null),
         onTap: () => onTap?.call(),
         readOnly: readOnly,
       ),

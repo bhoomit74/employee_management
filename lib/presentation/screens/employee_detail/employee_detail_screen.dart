@@ -133,7 +133,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Image.asset(
                               AppImages.arrowRight,
                               color: AppColors.primary,

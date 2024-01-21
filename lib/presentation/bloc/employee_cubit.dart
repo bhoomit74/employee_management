@@ -21,6 +21,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   }
 
   fetchEmployees() {
+    employees.clear();
     employees.addAll(employeeRepository.fetchEmployees());
     separateCurrentAndPreviousEmployee();
     emit(EmployeesFetch());
@@ -75,9 +76,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   undoDelete() {
     if (_deleteTimer?.isActive == true && undoEmployee != null) {
       _deleteTimer?.cancel();
-      employees.add(undoEmployee!);
-      separateCurrentAndPreviousEmployee();
-      emit(EmployeesUpdate());
+      fetchEmployees();
     }
   }
 
