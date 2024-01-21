@@ -1,6 +1,6 @@
 import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_images.dart';
-import 'package:employee_management/core/utils/app_date_format.dart';
+import 'package:employee_management/core/utils/date_util.dart';
 import 'package:employee_management/presentation/common_widgets/app_button.dart';
 import 'package:employee_management/presentation/common_widgets/bottom_action_bar.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +21,10 @@ class AppCalendar extends StatefulWidget {
 
   @override
   State<AppCalendar> createState() => _AppCalendarState();
+
+  void show(context) {
+    showDialog(context: context, builder: (context) => this);
+  }
 }
 
 class _AppCalendarState extends State<AppCalendar> {
@@ -118,7 +122,7 @@ class _AppCalendarState extends State<AppCalendar> {
                   ),
                 ),
                 CalendarDatePicker(
-                    initialDate: date ?? DateTime.now(),
+                    initialDate: date ?? widget.firstDate,
                     firstDate: widget.firstDate,
                     lastDate: DateTime(2026),
                     onDateChanged: (value) => setState(() {

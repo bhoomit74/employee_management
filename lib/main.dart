@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => EmployeeCubit(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Employee management',
         theme: ThemeData(
           datePickerTheme: DatePickerThemeData(

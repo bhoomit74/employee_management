@@ -31,3 +31,8 @@ class Error extends EmployeeState {
   final String errorMessage;
   Error(this.errorMessage);
 }
+
+class EmployeeSelected extends EmployeeState {
+  final Employee employee;
+  EmployeeSelected(this.employee);
+}

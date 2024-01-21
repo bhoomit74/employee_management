@@ -68,7 +68,12 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     emit(EndDateChange(dateTime?.millisecondsSinceEpoch));
   }
 
-  setEmployeeToEdit(Employee employee) {
-    selectedEmployee = employee;
+  selectEmployee(Employee? employee) {
+    if (employee == null) {
+      selectedEmployee = Employee.empty();
+    } else {
+      selectedEmployee = employee;
+    }
+    emit(EmployeeSelected(selectedEmployee));
   }
 }
