@@ -18,6 +18,8 @@ class AppButton extends StatelessWidget {
     return FilledButton(
       onPressed: onTap,
       style: ButtonStyle(
+        padding: const MaterialStatePropertyAll<EdgeInsets>(
+            EdgeInsets.symmetric(horizontal: 10)),
         shape: MaterialStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))),
         backgroundColor: MaterialStatePropertyAll<Color>(

@@ -22,7 +22,7 @@ class BottomActionBar extends StatelessWidget {
       children: [
         const Divider(height: 1, color: AppColors.borderColor),
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
