@@ -5,4 +5,6 @@ class AppStrings {
   static const selectRole = "Select Role";
   static const addEmployeeDetails = "Add Employee Details";
   static const editEmployeeDetails = "Edit Employee Details";
+  static const currentEmployees = "Current Employees";
+  static const previousEmployees = "previous Employees";
 }
