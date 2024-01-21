@@ -1,3 +1,5 @@
+import 'package:employee_management/core/styles/app_strings.dart';
+
 class Employee {
   late String id;
   late String name;
@@ -39,9 +41,9 @@ class Employee {
 
   String get error {
     if (name.isEmpty) {
-      return "Employee name is required.";
+      return AppStrings.nameError;
     } else if (role.isEmpty) {
-      return "Role is required";
+      return AppStrings.roleError;
     } else {
       return "";
     }

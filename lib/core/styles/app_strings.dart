@@ -12,4 +12,6 @@ class AppStrings {
   static const save = "Save";
   static const cancel = "Cancel";
   static const swipeLeftToDelete = "Swipe left to delete";
+  static const nameError = "Employee name is required.";
+  static const roleError = "Please select role.";
 }
