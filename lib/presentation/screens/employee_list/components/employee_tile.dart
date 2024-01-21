@@ -1,6 +1,7 @@
 import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_images.dart';
 import 'package:employee_management/core/styles/app_text_styles.dart';
+import 'package:employee_management/core/utils/date_extension.dart';
 import 'package:employee_management/domain/employee.dart';
 import 'package:employee_management/presentation/screens/employee_detail/bloc/employee_cubit.dart';
 import 'package:flutter/material.dart';
@@ -43,11 +44,19 @@ class EmployeeTile extends StatelessWidget {
                   style:
                       AppTextStyles.bodyTinyMedium(color: AppColors.hintColor)),
               const SizedBox(height: 6),
-              Text(employee.name,
+              Text(getWorkDurationText(employee),
                   style:
                       AppTextStyles.bodyExtraTiny(color: AppColors.hintColor)),
             ],
           ),
         ));
+  }
+
+  String getWorkDurationText(Employee employee) {
+    if (employee.endDate == null) {
+      return 'From ${employee.startDate.formatted}';
+    } else {
+      return '${employee.startDate.formatted} - ${employee.endDate.formatted}';
+    }
   }
 }

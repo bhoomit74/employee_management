@@ -6,9 +6,7 @@ class EmployeeInitial extends EmployeeState {}
 
 class EmployeeLoading extends EmployeeState {}
 
-class EmployeesNotFound extends EmployeeState {}
-
-class EmployeesFound extends EmployeeState {}
+class EmployeesFetch extends EmployeeState {}
 
 class EmployeesUpdate extends EmployeeState {}
 

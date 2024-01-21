@@ -1,4 +1,6 @@
+import 'package:employee_management/core/styles/app_colors.dart';
 import 'package:employee_management/core/styles/app_strings.dart';
+import 'package:employee_management/core/styles/app_text_styles.dart';
 import 'package:employee_management/domain/employee.dart';
 import 'package:employee_management/presentation/common_widgets/top_bar.dart';
 import 'package:employee_management/presentation/screens/employee_detail/bloc/employee_cubit.dart';
@@ -17,23 +19,66 @@ class EmployeeListScreen extends StatelessWidget {
     return BlocBuilder<EmployeeCubit, EmployeeState>(
       builder: (context, state) {
         List<Employee> employees = context.read<EmployeeCubit>().employees;
+        List<Employee> currentEmployees =
+            context.read<EmployeeCubit>().currentEmployees;
+        List<Employee> previousEmployees =
+            context.read<EmployeeCubit>().previousEmployees;
         return Scaffold(
             appBar: const TopBar(title: AppStrings.employeeList),
             floatingActionButton: const AppFloatingButton(),
             body: SafeArea(
-              child: employees.isEmpty
-                  ? const NoDataWidget()
-                  : ListView.builder(
-                      itemCount: employees.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () => navigateToEmployeeDetail(
-                                context, employees[index]),
-                            behavior: HitTestBehavior.opaque,
-                            child: EmployeeTile(employee: employees[index]));
-                      },
-                    ),
-            ));
+                child: employees.isEmpty
+                    ? const NoDataWidget()
+                    : CustomScrollView(
+                        slivers: [
+                          SliverAppBar(
+                            backgroundColor: AppColors.borderColor,
+                            title: Text("Current Employee",
+                                style: AppTextStyles.bodySmall(
+                                    color: AppColors.primary)),
+                          ),
+                          SliverList.separated(
+                            itemCount: currentEmployees.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () => navigateToEmployeeDetail(
+                                      context, currentEmployees[index]),
+                                  behavior: HitTestBehavior.opaque,
+                                  child: EmployeeTile(
+                                      employee: currentEmployees[index]));
+                            },
+                            separatorBuilder: (context, index) {
+                              return const Divider(
+                                color: AppColors.borderColor,
+                                height: 0.5,
+                              );
+                            },
+                          ),
+                          SliverAppBar(
+                            backgroundColor: AppColors.borderColor,
+                            title: Text("Previous Employee",
+                                style: AppTextStyles.bodySmall(
+                                    color: AppColors.primary)),
+                          ),
+                          SliverList.separated(
+                            itemCount: previousEmployees.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () => navigateToEmployeeDetail(
+                                      context, previousEmployees[index]),
+                                  behavior: HitTestBehavior.opaque,
+                                  child: EmployeeTile(
+                                      employee: previousEmployees[index]));
+                            },
+                            separatorBuilder: (context, index) {
+                              return const Divider(
+                                color: AppColors.borderColor,
+                                height: 0.5,
+                              );
+                            },
+                          ),
+                        ],
+                      )));
       },
     );
   }

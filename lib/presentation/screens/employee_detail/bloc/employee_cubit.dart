@@ -8,15 +8,18 @@ part 'employee_state.dart';
 class EmployeeCubit extends Cubit<EmployeeState> {
   Employee selectedEmployee = Employee.empty();
   List<Employee> employees = [];
+  List<Employee> currentEmployees = [];
+  List<Employee> previousEmployees = [];
   late EmployeeRepository employeeRepository;
   EmployeeCubit() : super(EmployeeInitial()) {
     employeeRepository = EmployeeRepositoryImpl();
     fetchEmployees();
   }
 
-  List<Employee> fetchEmployees() {
+  fetchEmployees() {
     employees.addAll(employeeRepository.fetchEmployees());
-    return employees;
+    separateCurrentAndPreviousEmployee();
+    emit(EmployeesFetch());
   }
 
   addEmployee() {
@@ -25,6 +28,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     if (employee.error.isEmpty) {
       employees.add(employee);
       employeeRepository.addEmployee(employee);
+      separateCurrentAndPreviousEmployee();
       emit(EmployeesUpdate());
     } else {
       emit(Error(employee.error));
@@ -34,6 +38,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   editEmployee() {
     if (selectedEmployee.error.isEmpty) {
       employeeRepository.addEmployee(selectedEmployee);
+      separateCurrentAndPreviousEmployee();
       emit(EmployeesUpdate());
     } else {
       emit(Error(selectedEmployee.error));
@@ -43,6 +48,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   deleteEmployee(Employee employee) {
     employees.remove(employee);
     employeeRepository.deleteEmployee(employee);
+    separateCurrentAndPreviousEmployee();
     emit(EmployeesUpdate());
   }
 
@@ -69,11 +75,19 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   }
 
   selectEmployee(Employee? employee) {
-    if (employee == null) {
-      selectedEmployee = Employee.empty();
-    } else {
-      selectedEmployee = employee;
-    }
+    selectedEmployee = employee ?? Employee.empty();
     emit(EmployeeSelected(selectedEmployee));
+  }
+
+  separateCurrentAndPreviousEmployee() {
+    currentEmployees.clear();
+    previousEmployees.clear();
+    for (Employee employee in employees) {
+      if (employee.endDate == null) {
+        currentEmployees.add(employee);
+      } else {
+        previousEmployees.add(employee);
+      }
+    }
   }
 }

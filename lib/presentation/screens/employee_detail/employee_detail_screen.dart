@@ -70,16 +70,16 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
         } else if (state is EmployeesUpdate) {
           Navigator.pop(context);
         } else if (state is StartDateChange) {
-          startDateController.text = state.startDate.formatted;
+          startDateController.text = state.startDate.stringify;
           Navigator.pop(context);
         } else if (state is EndDateChange) {
-          endDateController.text = state.endDate.formatted;
+          endDateController.text = state.endDate.stringify;
           Navigator.pop(context);
         } else if (state is EmployeeSelected) {
           nameController.text = state.employee.name;
           roleController.text = state.employee.role;
-          startDateController.text = state.employee.startDate.formatted;
-          endDateController.text = state.employee.endDate.formatted;
+          startDateController.text = state.employee.startDate.stringify;
+          endDateController.text = state.employee.endDate.stringify;
         }
       },
       builder: (context, state) {
